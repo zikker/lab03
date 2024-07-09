@@ -3,6 +3,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <algorithm>
+#include "histogram.h"
 using namespace std;
 
 const size_t SCREEN_WIDTH = 80;
@@ -17,7 +18,6 @@ const auto BLOCK_WIDTH = 10;
 const vector<string> COLORS {"black", "mediumblue", "green", "deepskyblue", "lime", "lightyellow", "moccasin", "orangered", "fuchsia", "orchid"};
 
 vector<double> input_numbers(size_t count);
-void find_minmax(const vector<double> &numbers, double &min_el, double &max_el);
 vector<size_t> make_histogram(const vector<double> &numbers, size_t bin_count);
 void show_histogram_text(const vector<size_t> &bins);
 void svg_begin(double width, double height);
@@ -52,12 +52,6 @@ vector<double> input_numbers(size_t count){
         cin >> result[i];
     }
     return result;
-}
-
-
-void find_minmax(const vector<double> &numbers, double &min_el, double &max_el){
-    min_el = *min_element(numbers.begin(), numbers.end());
-    max_el = *max_element(numbers.begin(), numbers.end());
 }
 
 
