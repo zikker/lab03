@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <ctime>
+#include <cstdlib>
 #include <algorithm>
 using namespace std;
 
@@ -12,6 +14,8 @@ const auto TEXT_BASELINE = 20;
 const auto TEXT_WIDTH = 50;
 const auto BIN_HEIGHT = 30;
 const auto BLOCK_WIDTH = 10;
+const vector<string> COLORS {"black", "mediumblue", "green", "deepskyblue", "lime", "lightyellow", "moccasin", "orangered", "fuchsia", "orchid"};
+
 vector<double> input_numbers(size_t count);
 void find_minmax(const vector<double> &numbers, double &min_el, double &max_el);
 vector<size_t> make_histogram(const vector<double> &numbers, size_t bin_count);
@@ -120,8 +124,17 @@ void svg_end(){
 
 
 void show_histogram_svg(const vector<size_t>& bins){
+    srand(time(0));
     svg_begin(IMAGE_WIDTH, IMAGE_HEIGHT);
-    svg_rect(0, 0, 100, 200);
+    double top = 0;
+    double max_count = *max_element(bins.begin(), bins.end());
+    for (size_t bin : bins) {
+        const double bin_width = IMAGE_WIDTH * (static_cast<double>(bin) / max_count);
+        string color = COLORS[rand() % 10];
+        svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin));
+        svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT, color, color);
+        top += BIN_HEIGHT;
+    }
     svg_end();
 }
 
