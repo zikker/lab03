@@ -9,6 +9,9 @@ vector<double> input_numbers(size_t count);
 void find_minmax(const vector<double> &numbers, double &min_el, double &max_el);
 vector<size_t> make_histogram(const vector<double> &numbers, size_t bin_count);
 void show_histogram_text(const vector<size_t> &bins);
+void svg_begin(double width, double height);
+void svg_end();
+void show_histogram_svg(const vector<size_t>& bins);
 
 int main(){
     size_t number_count;
@@ -22,11 +25,13 @@ int main(){
     cin >> bin_count;
     const auto bins = make_histogram(numbers, bin_count);
 
-    show_histogram_text(bins);
+    //show_histogram_text(bins);
+    show_histogram_svg(bins);
     
     
 
 }
+
 
 vector<double> input_numbers(size_t count){
     vector<double> result(count);
@@ -36,10 +41,12 @@ vector<double> input_numbers(size_t count){
     return result;
 }
 
+
 void find_minmax(const vector<double> &numbers, double &min_el, double &max_el){
     min_el = *min_element(numbers.begin(), numbers.end());
     max_el = *max_element(numbers.begin(), numbers.end());
 }
+
 
 vector<size_t> make_histogram(const vector<double> &numbers, size_t bin_count){
     double min_el, max_el;
@@ -63,6 +70,7 @@ vector<size_t> make_histogram(const vector<double> &numbers, size_t bin_count){
     return bins;
 }
 
+
 void show_histogram_text(const vector<size_t> &bins){
     double max_count = *max_element(bins.begin(), bins.end());
     const bool scaling_needed = max_count > MAX_ASTERISK;
@@ -84,4 +92,25 @@ void show_histogram_text(const vector<size_t> &bins){
         }
         cout << '\n';
     }
+}
+
+
+void svg_begin(double width, double height){
+    cout << "<?xml version='1.0' encoding='UTF-8'?>\n";
+    cout << "<svg ";
+    cout << "width='" << width << "' ";
+    cout << "height='" << height << "' ";
+    cout << "viewBox='0 0 " << width << " " << height << "' ";
+    cout << "xmlns='http://www.w3.org/2000/svg'>\n";
+}
+
+
+void svg_end(){
+    cout << "</svg>\n";
+}
+
+
+void show_histogram_svg(const vector<size_t>& bins){
+    svg_begin(300, 400);
+    svg_end();
 }
